@@ -1,0 +1,21 @@
+# Dependencies
+node_modules/
+backend/node_modules/
+frontend/node_modules/
+
+# Next.js build output
+frontend/.next/
+.next/
+out/
+build/
+
+# Misc
+.env
+.DS_Store
+git_error.txt
+git_ls_files.txt
+git_ls_files_utf8.txt
+git_log.txt
+git_log_utf8.txt
+large_files_list.txt
+large_files_utf8.txt

@@ -1,0 +1,105 @@
+/* Sidebar Container */
+.sidebar {
+  position: fixed;
+  top: 90px;
+  left: 20px;
+
+  height: calc(100vh - 110px);
+  width: 70px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+
+  padding: 12px;
+
+  border-radius: 24px;
+
+  background: rgba(17, 17, 19, 0.6);
+  backdrop-filter: blur(20px);
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  transition: width 0.3s ease;
+  z-index: 10;
+  overflow: hidden;
+}
+
+/* Expand on hover */
+.sidebar:hover {
+  width: 220px;
+}
+
+/* Menu Container */
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+/* Menu Item = MINIMAL STYLE */
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 10px 14px;
+  border-radius: 12px; /* Less round for minimal look */
+
+  cursor: pointer;
+
+  background: transparent;
+  color: #a1a1aa;
+  text-decoration: none;
+
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+/* Hover */
+.menu-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: white;
+}
+
+/* ACTIVE (Subtle Elevation) */
+.menu-item.active {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: white;
+}
+
+/* ICON */
+.icon {
+  font-size: 18px;
+  min-width: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.8;
+}
+
+.menu-item:hover .icon,
+.menu-item.active .icon {
+  opacity: 1;
+}
+
+/* Label */
+.label {
+  font-size: 14px;
+  font-weight: 500;
+  opacity: 0;
+  white-space: nowrap;
+  transition: 0.2s;
+}
+
+/* Show label on hover */
+.sidebar:hover .label {
+  opacity: 1;
+}
+
+/* Hide on mobile */
+@media (max-width: 1024px) {
+  .sidebar { display: none; }
+}
