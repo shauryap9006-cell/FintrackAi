@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'export',
   /* config options here */
   experimental: {
     // Attempting to disable turbopack if it's causing the crash
