@@ -35,10 +35,18 @@ app.use(errorHandler);
 
 // Start server
 const startServer = async () => {
-  await connectDB();
-  app.listen(PORT, () => {
-    console.log(`🚀 FinTrack AI server running on port ${PORT}`);
-  });
+  try {
+    await connectDB();
+    if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
+        app.listen(PORT, () => {
+          console.log(`🚀 FinTrack AI server running on port ${PORT}`);
+        });
+    }
+  } catch (error) {
+    console.error('Failed to start server:', error);
+  }
 };
 
 startServer();
+
+module.exports = app;
