@@ -37,6 +37,7 @@
 
 * {
   box-sizing: border-box;
+  backface-visibility: hidden;
 }
 
 body {
@@ -75,21 +76,104 @@ body::after {
   border-radius: 3px;
 }
 
-/* Glass card utility */
+/* Smooth GPU-accelerated card hover */
+.card,
 .glass-card {
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(16px) saturate(180%);
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  position: relative;
   border-radius: 20px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: transform 0.25s ease, border 0.25s ease;
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+.card::before,
+.glass-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  background: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0.08),
+    rgba(255, 255, 255, 0.02)
+  );
+  pointer-events: none;
+}
+
+.card:hover,
+.glass-card:hover {
+  transform: translateY(-6px) scale(1.02);
+  border: 1px solid rgba(124, 58, 237, 0.4);
+}
+
+.card:hover::after,
+.glass-card:hover::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: 20px;
+  background: linear-gradient(120deg, #7c3aed, #3b82f6);
+  opacity: 0.4;
+  z-index: -1;
+  filter: blur(8px);
 }
 
 /* Dark mode override for glass cards to maintain consistency */
 .dark .glass-card {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Shared navbar/action button style */
+.nav-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #cbd5f5;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.nav-btn:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.nav-btn.active {
+  background: rgba(59, 130, 246, 0.15);
+  border: 1px solid rgba(59, 130, 246, 0.4);
+  color: #fff;
+}
+
+.nav-btn.primary {
+  background: linear-gradient(120deg, #7c3aed, #3b82f6);
+  border: none;
+  color: #fff;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.welcome-card {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 /* Gradient text */

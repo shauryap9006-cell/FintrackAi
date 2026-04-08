@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
+import { Plus, BarChart3, Sparkles, TrendingUp, TrendingDown, Receipt } from 'lucide-react';
 import toast from 'react-hot-toast';
 import Navbar from '@/components/Navbar';
 import Sidebar from '@/components/Sidebar';
@@ -15,7 +16,6 @@ import { getTransactions, getAnalytics, deleteTransaction } from '@/lib/api';
 import BorderGlow from '@/components/BorderGlow';
 import Link from 'next/link';
 import ProtectedRoute from '@/components/ProtectedRoute';
-import DashboardMetricsStack from '@/components/DashboardMetricsStack';
 
 export default function DashboardPage() {
   const [transactions, setTransactions] = useState([]);
@@ -63,26 +63,72 @@ export default function DashboardPage() {
       <Sidebar />
 
       <main className="dashboard-main" style={{
-        marginLeft: 240,
+        marginLeft: 110,
         paddingTop: 64,
         minHeight: '100vh',
       }}>
         <PageTransition>
-          <div style={{ padding: '32px 28px', maxWidth: 1100 }}>
-            {/* Header */}
-            <div style={{ marginBottom: 28 }}>
-              <h1 style={{ fontSize: 26, fontWeight: 700, letterSpacing: '-0.5px' }}>Dashboard</h1>
-              <p style={{ fontSize: 14, color: 'var(--text-secondary)', marginTop: 4 }}>
-                Welcome back! Here&apos;s your financial overview.
-              </p>
+          <div style={{ padding: '32px 28px 40px', maxWidth: 1200 }}>
+            {/* Reimagined Header */}
+            <div className="glass-card card welcome-card" style={{ padding: 24, marginBottom: 22 }}>
+              <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 16, flexWrap: 'wrap' }}>
+                <div>
+                  <h1 style={{ fontSize: 30, fontWeight: 800, letterSpacing: '-0.6px', lineHeight: 1.1 }}>
+                    Dashboard
+                  </h1>
+                  <p style={{ fontSize: 14, color: 'var(--text-secondary)', marginTop: 8 }}>
+                    Welcome back! Here&apos;s your financial overview.
+                  </p>
+                </div>
+                <div style={{ fontSize: 13, color: 'var(--text-secondary)', background: 'rgba(255,255,255,0.04)', border: '1px solid var(--border-color)', borderRadius: 999, padding: '8px 14px' }}>
+                  {loading ? 'Syncing data...' : `${transactions.length} total transactions`}
+                </div>
+              </div>
+
+              {/* Quick Actions */}
+              <div className="actions" style={{ marginTop: 18 }}>
+                <Link href="/add-expense">
+                  <motion.button
+                    whileHover={{ scale: 1.03 }}
+                    transition={{ type: 'spring', stiffness: 180, damping: 20, mass: 0.5 }}
+                    whileTap={{ scale: 0.97 }}
+                    className="nav-btn primary"
+                  >
+                    <Plus size={16} />
+                    Add Transaction
+                  </motion.button>
+                </Link>
+                <Link href="/analytics">
+                  <motion.button
+                    whileHover={{ scale: 1.03 }}
+                    transition={{ type: 'spring', stiffness: 180, damping: 20, mass: 0.5 }}
+                    whileTap={{ scale: 0.97 }}
+                    className="nav-btn"
+                  >
+                    <BarChart3 size={16} />
+                    View Analytics
+                  </motion.button>
+                </Link>
+                <Link href="/ai-insights">
+                  <motion.button
+                    whileHover={{ scale: 1.03 }}
+                    transition={{ type: 'spring', stiffness: 180, damping: 20, mass: 0.5 }}
+                    whileTap={{ scale: 0.97 }}
+                    className="nav-btn"
+                  >
+                    <Sparkles size={16} />
+                    AI Insights
+                  </motion.button>
+                </Link>
+              </div>
             </div>
 
-            {/* Balance + Stats Row */}
-            <div style={{
+            {/* Balance + Stats */}
+            <div className="dashboard-main-grid" style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+              gridTemplateColumns: '1.3fr 1fr',
               gap: 16,
-              marginBottom: 28,
+              marginBottom: 22,
             }}>
               <BalanceCard
                 balance={totals.balance}
@@ -90,87 +136,39 @@ export default function DashboardPage() {
                 expense={totals.expense}
                 loading={loading}
               />
-              <StatsCard
-                icon="📈"
-                label="Total Income"
-                value={`₹${totals.income.toLocaleString('en-IN')}`}
-                variant="emerald"
-                color="#b8fce5ff"
-                loading={loading}
-              />
-              <StatsCard
-                icon="📉"
-                label="Total Expenses"
-                value={`₹${totals.expense.toLocaleString('en-IN')}`}
-                variant="rose"
-                color="#ef4444"
-                loading={loading}
-              />
-              <StatsCard
-                icon="📋"
-                label="Transactions"
-                value={transactions.length.toString()}
-                variant="blue"
-                color="#6366f1"
-                loading={loading}
-              />
-            </div>
 
-            {/* Quick Actions */}
-            <div style={{
-              display: 'flex',
-              gap: 12,
-              marginBottom: 28,
-              flexWrap: 'wrap',
-            }}>
-              <Link href="/add-expense">
-                <motion.button
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.97 }}
-                  className="gradient-btn"
-                  style={{ fontSize: 14, padding: '10px 20px' }}
-                >
-                  ➕ Add Transaction
-                </motion.button>
-              </Link>
-              <Link href="/analytics">
-                <motion.button
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.97 }}
-                  style={{
-                    padding: '10px 20px',
-                    borderRadius: 12,
-                    border: '1.5px solid var(--border-color)',
-                    background: 'var(--bg-card)',
-                    color: 'var(--text-primary)',
-                    fontWeight: 500,
-                    fontSize: 14,
-                    cursor: 'pointer',
-                    transition: 'all 0.2s ease',
-                  }}
-                >
-                  📈 View Analytics
-                </motion.button>
-              </Link>
-              <Link href="/ai-insights">
-                <motion.button
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.97 }}
-                  style={{
-                    padding: '10px 20px',
-                    borderRadius: 12,
-                    border: '1.5px solid var(--border-color)',
-                    background: 'var(--bg-card)',
-                    color: 'var(--text-primary)',
-                    fontWeight: 500,
-                    fontSize: 14,
-                    cursor: 'pointer',
-                    transition: 'all 0.2s ease',
-                  }}
-                >
-                  🤖 AI Insights
-                </motion.button>
-              </Link>
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+                gap: 16,
+              }}>
+                <StatsCard
+                  icon={<TrendingUp size={22} />}
+                  label="Total Income"
+                  value={`₹${totals.income.toLocaleString('en-IN')}`}
+                  variant="emerald"
+                  color="#b8fce5ff"
+                  loading={loading}
+                />
+                <StatsCard
+                  icon={<TrendingDown size={22} />}
+                  label="Total Expenses"
+                  value={`₹${totals.expense.toLocaleString('en-IN')}`}
+                  variant="rose"
+                  color="#ef4444"
+                  loading={loading}
+                />
+                <div style={{ gridColumn: 'span 2' }}>
+                  <StatsCard
+                    icon={<Receipt size={22} />}
+                    label="Transactions"
+                    value={transactions.length.toString()}
+                    variant="blue"
+                    color="#6366f1"
+                    loading={loading}
+                  />
+                </div>
+              </div>
             </div>
 
             {/* Recent Transactions */}
@@ -181,7 +179,7 @@ export default function DashboardPage() {
               glowRadius={40}
               backgroundColor="rgba(255, 255, 255, 0.03)"
               colors={['#6366f1', '#a855f7', '#3b82f6']}
-              className="mt-6"
+              className="mt-6 card"
             >
               <div style={{ padding: 24 }}>
               <div style={{
@@ -221,6 +219,11 @@ export default function DashboardPage() {
       </main>
 
       <style jsx global>{`
+        @media (max-width: 1180px) {
+          .dashboard-main-grid {
+            grid-template-columns: 1fr !important;
+          }
+        }
         @media (max-width: 1024px) {
           .dashboard-main { margin-left: 0 !important; }
         }

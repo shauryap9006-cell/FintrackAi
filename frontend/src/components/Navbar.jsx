@@ -4,16 +4,13 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Home, LayoutDashboard, PlusCircle, PieChart, Sparkles, LogOut, Menu, X } from 'lucide-react';
+import { Home, LayoutDashboard, LogOut, Menu, X } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import ThemeToggle from './ThemeToggle';
 
 const navLinks = [
   { href: '/', label: 'Home', icon: Home },
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { href: '/add-expense', label: 'Add Expense', icon: PlusCircle },
-  { href: '/analytics', label: 'Analytics', icon: PieChart },
-  { href: '/ai-insights', label: 'AI Insights', icon: Sparkles },
 ];
 
 export default function Navbar() {
@@ -53,7 +50,7 @@ export default function Navbar() {
         </Link>
 
         {/* 🔹 Center: Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-1">
+        <div className="hidden md:flex items-center gap-1 absolute left-1/2 -translate-x-1/2">
           {visibleLinks.map((link) => {
             const isActive = pathname === link.href;
             const Icon = link.icon;
@@ -62,12 +59,9 @@ export default function Navbar() {
                 <motion.div
                   whileHover={{ scale: 1.05 }}
                   transition={{ type: "spring", stiffness: 300 }}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-300 border
-                             ${isActive
-                      ? 'bg-blue-500/10 border-blue-400/20 text-white shadow-lg shadow-blue-500/10'
-                      : 'bg-white/5 border-white/10 text-white/70 hover:text-white hover:bg-white/10 border-transparent'}`}
+                  className={`nav-btn ${isActive ? 'active' : ''}`}
                 >
-                  <Icon size={16} className={isActive ? 'text-blue-400' : ''} />
+                  <Icon size={16} />
                   <span className="text-sm font-medium">{link.label}</span>
                 </motion.div>
               </Link>

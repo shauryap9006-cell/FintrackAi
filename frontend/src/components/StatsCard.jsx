@@ -47,12 +47,12 @@ export default function StatsCard({ icon, label, value, trend, trendUp, variant 
       coneSpread={35}
       animated
       colors={v.colors}
-      className="h-full"
+      className="h-full card"
     >
       <div className="p-6 cursor-default">
         <div 
-          className="w-11 h-11 rounded-xl flex items-center justify-center text-2xl mb-4 border border-white/5 shadow-inner"
-          style={{ background: `${color}15` }}
+          className="flex items-center justify-center w-[42px] h-[42px] rounded-xl mb-4 border border-white/10 shadow-inner backdrop-blur-md"
+          style={{ background: `${color}20` }}
         >
           {icon}
         </div>
@@ -61,8 +61,14 @@ export default function StatsCard({ icon, label, value, trend, trendUp, variant 
           {label}
         </p>
 
-        <div className="flex items-baseline gap-2.5">
-          <h3 className="text-2xl font-black text-white tracking-tight">{value}</h3>
+        <div className="flex items-baseline gap-2.5 min-w-0">
+          <h3
+            className="value font-black text-white tracking-tight leading-tight min-w-0 whitespace-nowrap overflow-hidden text-ellipsis"
+            style={{ fontSize: 'clamp(18px, 2.2vw + 8px, 34px)' }}
+            title={value}
+          >
+            {value}
+          </h3>
           {trend && (
             <span className={`text-[13px] font-bold flex items-center gap-0.5 ${trendUp ? 'text-emerald-400' : 'text-rose-400'}`}>
               {trendUp ? '↑' : '↓'} {trend}

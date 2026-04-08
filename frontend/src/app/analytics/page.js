@@ -45,7 +45,7 @@ export default function AnalyticsPage() {
         minHeight: '100vh',
       }}>
         <PageTransition>
-          <div style={{ padding: '32px 28px', maxWidth: 1100 }}>
+          <div className="analytics-page" style={{ padding: '32px 28px', maxWidth: 1100 }}>
             <div style={{ marginBottom: 28 }}>
               <h1 style={{ fontSize: 26, fontWeight: 700, letterSpacing: '-0.5px' }}>Analytics</h1>
               <p style={{ fontSize: 14, color: 'var(--text-secondary)', marginTop: 4 }}>
@@ -133,6 +133,15 @@ export default function AnalyticsPage() {
       </main>
 
       <style jsx global>{`
+        .analytics-page .card:hover,
+        .analytics-page .glass-card:hover {
+          transform: none !important;
+          border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        }
+        .analytics-page .card:hover::after,
+        .analytics-page .glass-card:hover::after {
+          content: none !important;
+        }
         @media (max-width: 1024px) {
           .dashboard-main { margin-left: 0 !important; }
         }

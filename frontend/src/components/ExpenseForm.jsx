@@ -44,7 +44,7 @@ export default function ExpenseForm({ onSubmit, loading = false }) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
-      className="glass-card"
+      className="glass-card no-card-hover"
       style={{ padding: 28, display: 'flex', flexDirection: 'column', gap: 20 }}
     >
       {/* Type toggle */}
@@ -187,6 +187,16 @@ export default function ExpenseForm({ onSubmit, loading = false }) {
       <style jsx>{`
         @keyframes spin {
           to { transform: rotate(360deg); }
+        }
+      `}</style>
+      <style jsx global>{`
+        .no-card-hover:hover {
+          transform: translateZ(0) !important;
+          border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        }
+
+        .no-card-hover:hover::after {
+          display: none !important;
         }
       `}</style>
     </motion.form>

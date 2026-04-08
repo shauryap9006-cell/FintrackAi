@@ -1,3 +1,5 @@
+import { motion } from 'framer-motion';
+import { Wallet } from 'lucide-react';
 import BorderGlow from './BorderGlow';
 
 export default function BalanceCard({ balance = 0, income = 0, expense = 0, loading = false }) {
@@ -14,6 +16,16 @@ export default function BalanceCard({ balance = 0, income = 0, expense = 0, load
     );
   }
 
+  const totalFlow = income + expense;
+  const formattedBalance = balance.toLocaleString('en-IN');
+  const expenseRatio = totalFlow > 0 ? Math.min((expense / totalFlow) * 100, 100) : 0;
+  const expenseBarWidth = `${Math.max(expenseRatio, totalFlow > 0 ? 8 : 0)}%`;
+
+  let hint = 'Balanced cash flow';
+  if (income === 0 && expense === 0) hint = 'No transactions yet';
+  else if (expense > income) hint = 'Spending exceeds income';
+  else if (income > expense) hint = 'You are saving this period';
+
   return (
     <BorderGlow
       edgeSensitivity={30}
@@ -25,35 +37,57 @@ export default function BalanceCard({ balance = 0, income = 0, expense = 0, load
       coneSpread={45}
       animated
       colors={['#c084fc', '#f472b6', '#38bdf8']}
-      className="h-full"
+      className="h-full card"
     >
-      <div className="p-8">
-        <p className="text-[13px] font-semibold text-white/70 mb-1 tracking-wider uppercase">
-          Total Balance
-        </p>
-        <h2 className="text-4xl font-black text-white mb-8 tracking-tight">
-          ₹{balance.toLocaleString('en-IN')}
-        </h2>
+      <div
+        className="balance-card p-8 h-full flex flex-col justify-between"
+        style={{
+          background: 'linear-gradient(135deg, rgba(124, 58, 237, 0.25), rgba(30, 41, 59, 0.38))'
+        }}
+      >
+        <div className="top">
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <p className="text-[13px] font-semibold text-white/70 mb-1 tracking-wider uppercase">
+                Total Balance
+              </p>
+              <h2
+                className="value font-black text-white tracking-tight leading-tight whitespace-nowrap overflow-hidden text-ellipsis"
+                style={{ fontSize: 'clamp(20px, 2.5vw, 34px)' }}
+                title={`₹${formattedBalance}`}
+              >
+                ₹<span className="amount inline-block">{formattedBalance}</span>
+              </h2>
+            </div>
+            <div className="flex items-center justify-center w-[42px] h-[42px] rounded-xl border border-white/10 bg-white/5 backdrop-blur-md shrink-0">
+              <Wallet size={22} className="text-white/80" />
+            </div>
+          </div>
+        </div>
 
-        <div className="flex gap-10">
-          <div>
-            <div className="flex items-center gap-2 mb-2">
-              <div className="w-5 h-5 rounded-md bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-[10px] font-bold border border-emerald-500/20">
-                ↑
-              </div>
-              <span className="text-xs text-white/70 font-medium tracking-wide">INCOME</span>
-            </div>
-            <p className="text-lg font-bold text-white tracking-tight">₹{income.toLocaleString('en-IN')}</p>
+        <div className="middle mt-6 flex items-center justify-between gap-6">
+          <div className="stat income min-w-0 flex-1">
+            <span className="text-xs text-emerald-300 font-medium tracking-wide">↑ Income</span>
+            <p className="text-lg font-bold text-white tracking-tight mt-1">₹{income.toLocaleString('en-IN')}</p>
           </div>
-          <div>
-            <div className="flex items-center gap-2 mb-2">
-              <div className="w-5 h-5 rounded-md bg-rose-500/20 text-rose-400 flex items-center justify-center text-[10px] font-bold border border-rose-500/20">
-                ↓
-              </div>
-              <span className="text-xs text-white/70 font-medium tracking-wide">EXPENSES</span>
-            </div>
-            <p className="text-lg font-bold text-white tracking-tight">₹{expense.toLocaleString('en-IN')}</p>
+          <div className="divider w-px h-10 bg-white/10 shrink-0" />
+          <div className="stat expense min-w-0 flex-1 text-right">
+            <span className="text-xs text-rose-300 font-medium tracking-wide">↓ Expenses</span>
+            <p className="text-lg font-bold text-white tracking-tight mt-1">₹{expense.toLocaleString('en-IN')}</p>
           </div>
+        </div>
+
+        <div className="bottom mt-6">
+          <div className="bar h-1.5 bg-white/10 rounded-full overflow-hidden">
+            <motion.div
+              className="expense-bar h-full rounded-full"
+              style={{ background: 'linear-gradient(90deg, #ef4444, #f97316)' }}
+              initial={{ width: 0 }}
+              animate={{ width: expenseBarWidth }}
+              transition={{ duration: 0.6, ease: 'easeOut' }}
+            />
+          </div>
+          <p className="hint text-xs text-slate-300 mt-2">{hint}</p>
         </div>
       </div>
     </BorderGlow>
