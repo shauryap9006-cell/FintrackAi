@@ -1,24 +1,16 @@
 const Transaction = require('../models/Transaction');
+const { Client, Environment, OrdersController } = require('@paypal/paypal-server-sdk');
 
-const PAYPAL_CLIENT_ID = process.env.PAYPAL_CLIENT_ID;
-const PAYPAL_SECRET = process.env.PAYPAL_SECRET;
-const PAYPAL_API = 'https://api-m.sandbox.paypal.com';
+// SDK Setup
+const client = new Client({
+  clientCredentialsAuthCredentials: {
+    clientId: process.env.PAYPAL_CLIENT_ID,
+    clientSecret: process.env.PAYPAL_SECRET,
+  },
+  environment: process.env.NODE_ENV === 'production' ? Environment.Production : Environment.Sandbox,
+});
 
-// Generate access token
-const generateAccessToken = async () => {
-  if (!PAYPAL_CLIENT_ID || !PAYPAL_SECRET) {
-    throw new Error('Missing PayPal credentials in .env');
-  }
-  const auth = Buffer.from(PAYPAL_CLIENT_ID + ':' + PAYPAL_SECRET).toString('base64');
-  const response = await fetch(`${PAYPAL_API}/v1/oauth2/token`, {
-    method: 'POST',
-    body: 'grant_type=client_credentials',
-    headers: { Authorization: `Basic ${auth}` },
-  });
-  const data = await response.json();
-  if (!response.ok) throw new Error(data.error_description || 'Failed to generate token');
-  return data.access_token;
-};
+const ordersController = new OrdersController(client);
 
 // POST /api/payments/create-order
 exports.createOrder = async (req, res, next) => {
@@ -29,27 +21,21 @@ exports.createOrder = async (req, res, next) => {
       return res.status(400).json({ success: false, message: 'Valid amount is required' });
     }
 
-    const accessToken = await generateAccessToken();
-    const payload = {
+    const orderRequest = {
       intent: 'CAPTURE',
-      purchase_units: [{ amount: { currency_code: currency, value: amount.toString() } }],
+      purchaseUnits: [{
+        amount: {
+          currencyCode: currency,
+          value: amount.toString(),
+        },
+      }],
     };
 
-    const response = await fetch(`${PAYPAL_API}/v2/checkout/orders`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}`,
-      },
-      body: JSON.stringify(payload),
-    });
-
-    const data = await response.json();
-    if (!response.ok) throw new Error(data.message || 'Failed to create PayPal order');
+    const { result } = await ordersController.ordersCreate({ body: orderRequest });
 
     res.status(200).json({
       success: true,
-      data: { orderId: data.id },
+      data: { orderId: result.id },
     });
   } catch (error) {
     console.error('PayPal create order error:', error.message);
@@ -66,25 +52,11 @@ exports.verifyPayment = async (req, res, next) => {
       return res.status(400).json({ success: false, message: 'Missing orderID' });
     }
 
-    const accessToken = await generateAccessToken();
-    const response = await fetch(`${PAYPAL_API}/v2/checkout/orders/${orderID}/capture`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    const { result } = await ordersController.ordersCapture({ id: orderID });
 
-    const data = await response.json();
-    if (!response.ok) {
-       // PayPal sends details array on error
-       const msg = data.details ? data.details[0].description : data.message;
-       throw new Error(msg || 'Payment capture failed');
-    }
-
-    // Save transaction if payment was completed
+    // Success if status is COMPLETED
     let transaction = null;
-    if (transactionData && data.status === 'COMPLETED') {
+    if (transactionData && result.status === 'COMPLETED') {
       transaction = await Transaction.create({
         ...transactionData,
         userId: req.user.id,
@@ -98,6 +70,7 @@ exports.verifyPayment = async (req, res, next) => {
       data: { transaction, paymentId: orderID },
     });
   } catch (error) {
+    console.error('PayPal capture error:', error.message);
     next(error);
   }
 };
