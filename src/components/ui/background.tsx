@@ -143,7 +143,7 @@ void main() {
 
 const ShaderMaterial = ({ source, uniforms }: any) => {
   const { size } = useThree();
-  const ref = useRef<any>();
+  const ref = useRef<any>(null);
 
   useFrame(({ clock }) => {
     if (ref.current) {
