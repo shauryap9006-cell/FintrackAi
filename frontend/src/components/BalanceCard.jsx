@@ -5,7 +5,7 @@ import BorderGlow from './BorderGlow';
 export default function BalanceCard({ balance = 0, income = 0, expense = 0, loading = false }) {
   if (loading) {
     return (
-      <div className="bg-[#0b0f1a] rounded-[28px] animate-pulse p-8 border border-white/5">
+      <div className="bg-slate-900 rounded-[28px] animate-pulse p-8 border border-slate-800">
         <div className="skeleton h-4 w-24 mb-3 rounded" />
         <div className="skeleton h-9 w-44 mb-5 rounded" />
         <div className="flex gap-6">
@@ -30,25 +30,25 @@ export default function BalanceCard({ balance = 0, income = 0, expense = 0, load
     <BorderGlow
       edgeSensitivity={30}
       glowColor="260 80 80"
-      backgroundColor="rgba(99, 82, 210, 0.45)"
+      backgroundColor="rgba(15, 23, 42, 0.9)"
       borderRadius={28}
       glowRadius={80}
       glowIntensity={3}
       coneSpread={45}
       animated
-      colors={['#c084fc', '#f472b6', '#38bdf8']}
+      colors={['#22d3ee', '#06b6d4', '#38bdf8']}
       className="h-full card"
     >
       <div
         className="balance-card p-8 h-full flex flex-col justify-between"
         style={{
-          background: 'linear-gradient(135deg, rgba(124, 58, 237, 0.25), rgba(30, 41, 59, 0.38))'
+          background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.85))'
         }}
       >
         <div className="top">
           <div className="flex items-start justify-between gap-4">
             <div>
-              <p className="text-[13px] font-semibold text-white/70 mb-1 tracking-wider uppercase">
+              <p className="text-[13px] font-semibold text-slate-300 mb-1 tracking-wider uppercase">
                 Total Balance
               </p>
               <h2
@@ -59,8 +59,8 @@ export default function BalanceCard({ balance = 0, income = 0, expense = 0, load
                 ₹<span className="amount inline-block">{formattedBalance}</span>
               </h2>
             </div>
-            <div className="flex items-center justify-center w-[42px] h-[42px] rounded-xl border border-white/10 bg-white/5 backdrop-blur-md shrink-0">
-              <Wallet size={22} className="text-white/80" />
+            <div className="flex items-center justify-center w-[42px] h-[42px] rounded-xl border border-slate-700 bg-slate-800 backdrop-blur-md shrink-0">
+              <Wallet size={22} className="text-cyan-400" />
             </div>
           </div>
         </div>
@@ -70,7 +70,7 @@ export default function BalanceCard({ balance = 0, income = 0, expense = 0, load
             <span className="text-xs text-emerald-300 font-medium tracking-wide">↑ Income</span>
             <p className="text-lg font-bold text-white tracking-tight mt-1">₹{income.toLocaleString('en-IN')}</p>
           </div>
-          <div className="divider w-px h-10 bg-white/10 shrink-0" />
+          <div className="divider w-px h-10 bg-slate-700 shrink-0" />
           <div className="stat expense min-w-0 flex-1 text-right">
             <span className="text-xs text-rose-300 font-medium tracking-wide">↓ Expenses</span>
             <p className="text-lg font-bold text-white tracking-tight mt-1">₹{expense.toLocaleString('en-IN')}</p>
@@ -78,7 +78,7 @@ export default function BalanceCard({ balance = 0, income = 0, expense = 0, load
         </div>
 
         <div className="bottom mt-6">
-          <div className="bar h-1.5 bg-white/10 rounded-full overflow-hidden">
+          <div className="bar h-1.5 bg-slate-700 rounded-full overflow-hidden">
             <motion.div
               className="expense-bar h-full rounded-full"
               style={{ background: 'linear-gradient(90deg, #ef4444, #f97316)' }}

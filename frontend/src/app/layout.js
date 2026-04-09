@@ -17,7 +17,7 @@ export default function RootLayout({ children }) {
           rel="stylesheet"
         />
       </head>
-      <body>
+      <body className="bg-slate-950 text-slate-200">
         <ThemeProvider>
           <Toaster
             position="top-right"

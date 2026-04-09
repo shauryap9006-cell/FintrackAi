@@ -58,7 +58,7 @@ export default function DashboardPage() {
 
   return (
     <ProtectedRoute>
-      <div style={{ minHeight: '100vh' }}>
+      <div className="min-h-screen bg-slate-950">
         <Navbar />
       <Sidebar />
 
@@ -70,58 +70,89 @@ export default function DashboardPage() {
         <PageTransition>
           <div style={{ padding: '32px 28px 40px', maxWidth: 1200 }}>
             {/* Reimagined Header */}
-            <div className="glass-card card welcome-card" style={{ padding: 24, marginBottom: 22 }}>
-              <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 16, flexWrap: 'wrap' }}>
-                <div>
-                  <h1 style={{ fontSize: 30, fontWeight: 800, letterSpacing: '-0.6px', lineHeight: 1.1 }}>
-                    Dashboard
-                  </h1>
-                  <p style={{ fontSize: 14, color: 'var(--text-secondary)', marginTop: 8 }}>
-                    Welcome back! Here&apos;s your financial overview.
-                  </p>
-                </div>
-                <div style={{ fontSize: 13, color: 'var(--text-secondary)', background: 'rgba(255,255,255,0.04)', border: '1px solid var(--border-color)', borderRadius: 999, padding: '8px 14px' }}>
-                  {loading ? 'Syncing data...' : `${transactions.length} total transactions`}
-                </div>
-              </div>
+            <motion.section
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.45, ease: 'easeOut' }}
+              className="relative mb-6 overflow-hidden rounded-3xl border border-slate-800 bg-slate-900/80 p-6 md:p-8"
+            >
+              <div className="pointer-events-none absolute -top-28 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-cyan-500/25 blur-3xl" />
+              <div className="pointer-events-none absolute -top-8 right-0 h-40 w-40 rounded-full bg-cyan-400/10 blur-2xl" />
+              <div className="pointer-events-none absolute bottom-0 left-0 h-32 w-32 rounded-full bg-blue-500/10 blur-2xl" />
 
-              {/* Quick Actions */}
-              <div className="actions" style={{ marginTop: 18 }}>
-                <Link href="/add-expense">
-                  <motion.button
-                    whileHover={{ scale: 1.03 }}
-                    transition={{ type: 'spring', stiffness: 180, damping: 20, mass: 0.5 }}
-                    whileTap={{ scale: 0.97 }}
-                    className="nav-btn primary"
-                  >
-                    <Plus size={16} />
-                    Add Transaction
-                  </motion.button>
-                </Link>
-                <Link href="/analytics">
-                  <motion.button
-                    whileHover={{ scale: 1.03 }}
-                    transition={{ type: 'spring', stiffness: 180, damping: 20, mass: 0.5 }}
-                    whileTap={{ scale: 0.97 }}
-                    className="nav-btn"
-                  >
-                    <BarChart3 size={16} />
-                    View Analytics
-                  </motion.button>
-                </Link>
-                <Link href="/ai-insights">
-                  <motion.button
-                    whileHover={{ scale: 1.03 }}
-                    transition={{ type: 'spring', stiffness: 180, damping: 20, mass: 0.5 }}
-                    whileTap={{ scale: 0.97 }}
-                    className="nav-btn"
-                  >
-                    <Sparkles size={16} />
-                    AI Insights
-                  </motion.button>
-                </Link>
+              <div className="relative z-10">
+                <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+                  <div>
+                    <h1 className="text-3xl md:text-5xl font-black tracking-tight text-white">
+                      Dashboard
+                    </h1>
+                    <p className="mt-2 text-sm md:text-base text-slate-300">
+                      Welcome back! Here&apos;s your financial overview.
+                    </p>
+                  </div>
+                  <div className="inline-flex w-fit rounded-full border border-slate-700 bg-slate-950/80 px-4 py-1 text-xs text-slate-300">
+                    {loading ? 'Syncing data...' : `${transactions.length} total transactions`}
+                  </div>
+                </div>
+
+                <div className="mt-5 grid gap-3 sm:grid-cols-3">
+                  <div className="rounded-xl border border-slate-800 bg-slate-950/70 p-3">
+                    <p className="text-xs uppercase tracking-wider text-slate-400">Balance</p>
+                    <p className="mt-1 text-lg font-semibold text-white">
+                      ₹{totals.balance.toLocaleString('en-IN')}
+                    </p>
+                  </div>
+                  <div className="rounded-xl border border-slate-800 bg-slate-950/70 p-3">
+                    <p className="text-xs uppercase tracking-wider text-slate-400">Income</p>
+                    <p className="mt-1 text-lg font-semibold text-emerald-300">
+                      ₹{totals.income.toLocaleString('en-IN')}
+                    </p>
+                  </div>
+                  <div className="rounded-xl border border-slate-800 bg-slate-950/70 p-3">
+                    <p className="text-xs uppercase tracking-wider text-slate-400">Expenses</p>
+                    <p className="mt-1 text-lg font-semibold text-rose-300">
+                      ₹{totals.expense.toLocaleString('en-IN')}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="actions mt-5">
+                  <Link href="/add-expense">
+                    <motion.button
+                      whileHover={{ scale: 1.03 }}
+                      transition={{ type: 'spring', stiffness: 180, damping: 20, mass: 0.5 }}
+                      whileTap={{ scale: 0.97 }}
+                      className="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-semibold rounded-md px-4 py-2 transition-colors duration-200 shadow-[0_0_12px_rgba(6,182,212,0.5)] hover:shadow-[0_0_20px_rgba(6,182,212,0.7)] disabled:opacity-40 disabled:cursor-not-allowed"
+                    >
+                      <Plus size={16} />
+                      Add Transaction
+                    </motion.button>
+                  </Link>
+                  <Link href="/analytics">
+                    <motion.button
+                      whileHover={{ scale: 1.03 }}
+                      transition={{ type: 'spring', stiffness: 180, damping: 20, mass: 0.5 }}
+                      whileTap={{ scale: 0.97 }}
+                      className="border border-cyan-500 text-cyan-400 hover:bg-cyan-500/10 rounded-md px-4 py-2 transition-colors duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
+                    >
+                      <BarChart3 size={16} />
+                      View Analytics
+                    </motion.button>
+                  </Link>
+                  <Link href="/ai-insights">
+                    <motion.button
+                      whileHover={{ scale: 1.03 }}
+                      transition={{ type: 'spring', stiffness: 180, damping: 20, mass: 0.5 }}
+                      whileTap={{ scale: 0.97 }}
+                      className="border border-cyan-500 text-cyan-400 hover:bg-cyan-500/10 rounded-md px-4 py-2 transition-colors duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
+                    >
+                      <Sparkles size={16} />
+                      AI Insights
+                    </motion.button>
+                  </Link>
+                </div>
               </div>
-            </div>
+            </motion.section>
 
             {/* Balance + Stats */}
             <div className="dashboard-main-grid" style={{
@@ -137,7 +168,7 @@ export default function DashboardPage() {
                 loading={loading}
               />
 
-              <div style={{
+              <div className="bg-slate-900 border border-slate-800 rounded-[28px] p-6" style={{
                 display: 'grid',
                 gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
                 gap: 16,
@@ -188,9 +219,9 @@ export default function DashboardPage() {
                 justifyContent: 'space-between',
                 marginBottom: 16,
               }}>
-                <h2 style={{ fontSize: 17, fontWeight: 600 }}>Recent Transactions</h2>
+                <h2 className="text-white" style={{ fontSize: 17, fontWeight: 600 }}>Recent Transactions</h2>
                 {transactions.length > 8 && (
-                  <span style={{ fontSize: 13, color: 'var(--color-primary)', fontWeight: 500 }}>
+                  <span style={{ fontSize: 13, color: '#22d3ee', fontWeight: 500 }}>
                     Showing last 8
                   </span>
                 )}
