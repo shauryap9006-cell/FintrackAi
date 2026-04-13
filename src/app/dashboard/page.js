@@ -119,34 +119,43 @@ export default function DashboardPage() {
                 <div className="actions mt-5">
                   <Link href="/add-expense">
                     <motion.button
-                      whileHover={{ scale: 1.03 }}
-                      transition={{ type: 'spring', stiffness: 180, damping: 20, mass: 0.5 }}
+                      whileHover={{ scale: 1.03, y: -1 }}
                       whileTap={{ scale: 0.97 }}
-                      className="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-semibold rounded-md px-4 py-2 transition-colors duration-200 shadow-[0_0_12px_rgba(6,182,212,0.5)] hover:shadow-[0_0_20px_rgba(6,182,212,0.7)] disabled:opacity-40 disabled:cursor-not-allowed"
+                      transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm
+                                 bg-gradient-to-r from-cyan-500 to-blue-500 text-slate-950
+                                 shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40
+                                 transition-shadow duration-300"
                     >
-                      <Plus size={16} />
+                      <Plus size={15} />
                       Add Transaction
                     </motion.button>
                   </Link>
                   <Link href="/analytics">
                     <motion.button
-                      whileHover={{ scale: 1.03 }}
-                      transition={{ type: 'spring', stiffness: 180, damping: 20, mass: 0.5 }}
+                      whileHover={{ scale: 1.03, y: -1 }}
                       whileTap={{ scale: 0.97 }}
-                      className="border border-cyan-500 text-cyan-400 hover:bg-cyan-500/10 rounded-md px-4 py-2 transition-colors duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
+                      transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium text-sm
+                                 bg-white/5 backdrop-blur-md border border-white/10
+                                 text-slate-300 hover:text-white hover:bg-white/10 hover:border-white/20
+                                 transition-all duration-300"
                     >
-                      <BarChart3 size={16} />
+                      <BarChart3 size={15} />
                       View Analytics
                     </motion.button>
                   </Link>
                   <Link href="/ai-insights">
                     <motion.button
-                      whileHover={{ scale: 1.03 }}
-                      transition={{ type: 'spring', stiffness: 180, damping: 20, mass: 0.5 }}
+                      whileHover={{ scale: 1.03, y: -1 }}
                       whileTap={{ scale: 0.97 }}
-                      className="border border-cyan-500 text-cyan-400 hover:bg-cyan-500/10 rounded-md px-4 py-2 transition-colors duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
+                      transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium text-sm
+                                 bg-white/5 backdrop-blur-md border border-white/10
+                                 text-slate-300 hover:text-white hover:bg-white/10 hover:border-white/20
+                                 transition-all duration-300"
                     >
-                      <Sparkles size={16} />
+                      <Sparkles size={15} />
                       AI Insights
                     </motion.button>
                   </Link>

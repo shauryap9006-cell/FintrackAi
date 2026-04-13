@@ -6,7 +6,6 @@ import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Home, LayoutDashboard, LogOut, Menu, X } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
-import ThemeToggle from './ThemeToggle';
 
 const navLinks = [
   { href: '/', label: 'Home', icon: Home },
@@ -36,16 +35,16 @@ export default function Navbar() {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
         className="relative z-10 mx-auto mt-2 max-w-7xl px-4 md:px-6 py-3 flex items-center justify-between
-                   backdrop-blur-xl bg-slate-900 border border-slate-800
-                   rounded-2xl shadow-lg shadow-cyan-500/10 mx-4 lg:mx-auto"
+                   backdrop-blur-xl bg-[var(--glass-bg)] border border-[var(--glass-border)]
+                   rounded-2xl shadow-lg shadow-[var(--shadow-color)] mx-4 lg:mx-auto"
       >
 
         {/* 🔹 Left: Logo */}
-        <Link href="/" className="flex items-center transition-transform hover:scale-105 active:scale-95">
-          <img 
-            src="/logo-main.png" 
-            alt="Fintrack Ai Logo" 
-            className="h-10 w-auto object-contain" 
+        <Link href="/" className="flex items-center transition-transform hover:scale-110 active:scale-95">
+          <img
+            src="/logo-main.png"
+            alt="Fintrack Ai Logo"
+            className="h-12 w-auto object-contain"
           />
         </Link>
 
@@ -73,26 +72,28 @@ export default function Navbar() {
         <div className="flex items-center gap-2 md:gap-4">
           <div className="hidden md:flex items-center gap-4">
             {user ? (
-              <>
-                <div className="flex flex-col items-end mr-2">
-                  <span className="text-xs text-slate-300 uppercase tracking-wider font-bold">Member</span>
-                  <span className="text-sm font-semibold text-white">{user.name}</span>
+              <div className="group relative flex flex-col items-end justify-center h-10 w-36 overflow-hidden rounded-lg cursor-pointer border border-transparent hover:border-red-500/30 transition-colors">
+                {/* Default State: User Info */}
+                <div className="flex flex-col items-end w-full px-2 transition-transform duration-300 group-hover:-translate-y-12">
+                  <span className="text-[10px] text-[var(--text-muted)] uppercase tracking-wider font-bold">Member</span>
+                  <span className="text-sm font-semibold text-[var(--text-primary)] truncate w-full flex justify-end">{user.name}</span>
                 </div>
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
+
+                {/* Hover State: Log Out Button slides up from bottom */}
+                <button
                   onClick={logout}
-                  className="bg-red-600/80 hover:bg-red-600 text-white rounded-md px-4 py-2 transition-colors duration-200 flex items-center gap-2 text-sm font-medium disabled:opacity-40 disabled:cursor-not-allowed"
+                  className="absolute inset-0 w-full h-full flex items-center justify-center gap-2 bg-red-600 hover:bg-red-500 text-white text-sm font-medium transition-transform duration-300 translate-y-full group-hover:translate-y-0 shadow-inner"
                 >
                   <LogOut size={16} />
                   Log Out
-                </motion.button>
-              </>
+                </button>
+              </div>
             ) : (
               <>
                 <Link href="/login">
                   <motion.button
                     whileHover={{ scale: 1.05 }}
-                    className="text-slate-300 hover:text-white transition text-sm font-medium"
+                    className="text-slate-300 hover:text-white transition-colors duration-200 text-sm font-medium"
                   >
                     Log In
                   </motion.button>
@@ -110,8 +111,7 @@ export default function Navbar() {
             )}
           </div>
 
-          <div className="flex items-center gap-2 border-l border-slate-800 pl-2 md:pl-4">
-            <ThemeToggle />
+          <div className="flex items-center gap-2 pl-2 md:pl-4">
 
             {/* Mobile Menu Toggle */}
             <motion.button
@@ -135,7 +135,7 @@ export default function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             className="absolute top-20 left-4 right-4 z-40 p-4
-                       backdrop-blur-2xl bg-slate-900 border border-slate-800
+                       backdrop-blur-2xl bg-[var(--glass-bg)] border border-[var(--glass-border)]
                        rounded-2xl shadow-2xl md:hidden"
           >
             <div className="flex flex-col gap-2">

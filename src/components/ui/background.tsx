@@ -15,17 +15,25 @@ export const AnimatedBackground = ({
   dotSize?: number;
   reverse?: boolean;
 }) => {
+  const dotColor = [[255, 255, 255]];
+  const gradientColor = "rgba(0,0,0,1)";
+  const topGradient = "from-black";
+
   return (
-    <div className="absolute inset-0 -z-10">
+    <div className="absolute inset-0 -z-10 bg-[var(--bg-primary)] transition-colors duration-500">
       <CanvasRevealEffect
         animationSpeed={animationSpeed}
         dotSize={dotSize}
         reverse={reverse}
+        colors={dotColor}
       />
 
       {/* overlays from original */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(0,0,0,1)_0%,_transparent_100%)]" />
-      <div className="absolute top-0 left-0 right-0 h-1/3 bg-gradient-to-b from-black to-transparent" />
+      <div 
+        className="absolute inset-0"
+        style={{ background: `radial-gradient(circle at center, ${gradientColor} 0%, transparent 100%)` }}
+      />
+      <div className={`absolute top-0 left-0 right-0 h-1/3 bg-gradient-to-b ${topGradient} to-transparent`} />
     </div>
   );
 };

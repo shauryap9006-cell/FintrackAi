@@ -6,6 +6,7 @@ import Navbar from '@/components/Navbar';
 import ColorBends from '@/components/ColorBends';
 import ShinyText from '@/components/ShinyText';
 import { GooeyText } from '@/components/ui/gooey-text-morphing';
+import { LiquidButton } from '@/components/ui/liquid-glass-button';
 
 const features = [
   {
@@ -107,7 +108,7 @@ export default function LandingPage() {
               texts={["Track", "Manage", "Analyze", "Grow"]}
               morphTime={1.2}
               cooldownTime={0.5}
-              textClassName="font-extrabold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent"
+              textClassName="font-sekuya font-extrabold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent"
             />
             <br />
             <span className="text-white/90">Your Finances Intelligently</span>
@@ -135,38 +136,16 @@ export default function LandingPage() {
             transition={{ duration: 0.6, delay: 0.3 }}
             style={{ display: 'flex', gap: 20, justifyContent: 'center', flexWrap: 'wrap', alignItems: 'center' }}
           >
-            <Link href="/signup" className="relative group">
-              {/* Lightweight Glow (Optimized) */}
-              <div className="absolute inset-0 rounded-full bg-purple-500/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10" />
-              
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.96 }}
-                transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                className="px-8 py-3 rounded-full font-semibold text-white
-                           bg-gradient-to-r from-blue-500 to-purple-600
-                           shadow-md shadow-purple-500/30
-                           will-change-transform"
-              >
+            <Link href="/signup">
+              <LiquidButton size="xl" className="text-white font-semibold">
                 🚀 Get Started
-              </motion.button>
+              </LiquidButton>
             </Link>
 
             <Link href="/ai-insights">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.96 }}
-                transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                className="px-8 py-3 rounded-full font-medium
-                           bg-white/5 backdrop-blur-md
-                           border border-white/10
-                           text-white/80
-                           hover:text-white
-                           hover:bg-white/10
-                           will-change-transform"
-              >
+              <LiquidButton size="xl" className="text-white/80 font-medium">
                 🤖 See AI Insights
-              </motion.button>
+              </LiquidButton>
             </Link>
           </motion.div>
         </div>
@@ -271,18 +250,9 @@ export default function LandingPage() {
                 Start tracking your expenses and get AI-powered financial insights today.
               </p>
               <Link href="/login">
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.96 }}
-                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                  className="px-10 py-4 rounded-full font-bold text-white
-                             bg-gradient-to-r from-blue-500 to-purple-600
-                             shadow-xl shadow-purple-500/20
-                             hover:shadow-purple-500/40
-                             will-change-transform"
-                >
+                <LiquidButton size="xl" className="text-white font-bold">
                   Open Dashboard →
-                </motion.button>
+                </LiquidButton>
               </Link>
             </div>
 

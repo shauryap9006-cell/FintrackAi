@@ -5,52 +5,55 @@
 :root {
   --primary: 189 94% 43%;
   --primary-foreground: 222 47% 5%;
+
+  /* Permanent Dark Mode Colors */
   --bg-primary: #0b0b0c;
   --bg-secondary: #111113;
   --bg-tertiary: #18181b;
-  
+  --bg-card: #111113;
+
   --accent: #6366f1;
   --accent-soft: rgba(99, 102, 241, 0.15);
-  
+
   --text-primary: #ffffff;
   --text-secondary: #a1a1aa;
   --text-muted: #71717a;
-  
+
   --border-color: rgba(255, 255, 255, 0.08);
   --glass-bg: rgba(255, 255, 255, 0.04);
   --glass-border: rgba(255, 255, 255, 0.08);
-}
+  --shadow-color: rgba(0, 0, 0, 0.3);
 
-.dark {
-  --bg-primary: #0b0b0c;
-  --bg-secondary: #111113;
-  --bg-card: #111113;
-  --border-color: rgba(255, 255, 255, 0.06);
-}
-
-
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 100 900;
-  font-display: swap;
-  src: url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-}
-
-* {
-  box-sizing: border-box;
-  backface-visibility: hidden;
+  --color-primary: #06b6d4;
+  --color-primary-dark: #0891b2;
+  --color-accent: #6366f1;
+  --color-success: #10b981;
+  --color-danger: #ef4444;
 }
 
 body {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  background: #020617;
+  font-family: 'Quicksand', sans-serif;
+  background-color: var(--bg-primary);
   background-attachment: fixed;
   color: var(--text-primary);
   transition: background-color 0.3s ease, color 0.3s ease;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.font-heading {
+  font-family: 'Quicksand', system-ui, -apple-system, sans-serif !important;
+}
+
+.font-sekuya {
+  font-family: 'Sekuya', cursive !important;
 }
 
 body::after {
@@ -83,10 +86,10 @@ body::after {
 .glass-card {
   position: relative;
   border-radius: 20px;
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--glass-bg);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--glass-border);
   transition: transform 0.25s ease, border 0.25s ease;
   will-change: transform;
   transform: translateZ(0);
@@ -98,11 +101,9 @@ body::after {
   position: absolute;
   inset: 0;
   border-radius: 20px;
-  background: linear-gradient(
-    120deg,
-    rgba(255, 255, 255, 0.08),
-    rgba(255, 255, 255, 0.02)
-  );
+  background: linear-gradient(120deg,
+      rgba(255, 255, 255, 0.08),
+      rgba(255, 255, 255, 0.02));
   pointer-events: none;
 }
 
@@ -138,13 +139,13 @@ body::after {
   gap: 8px;
   padding: 8px 16px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #cbd5f5;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
   font-size: 0.875rem;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
 }
 
 .nav-btn:hover {
@@ -301,10 +302,10 @@ body::after {
 .input-field {
   width: 100%;
   padding: 12px 16px;
-  background: #1e293b;
-  border: 1.5px solid #334155;
+  background: var(--bg-card);
+  border: 1.5px solid var(--border-color);
   border-radius: 12px;
-  color: #e2e8f0;
+  color: var(--text-primary);
   font-size: 0.95rem;
   transition: all 0.2s ease;
   outline: none;
